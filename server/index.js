@@ -7,6 +7,8 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+
+const config = require('./config');
 const PORT = 3000;
 
 // Serve static files
@@ -17,8 +19,8 @@ const rooms = {};
 
 function getRandomDot() {
   return {
-    x: Math.floor(Math.random() * 600),
-    y: Math.floor(Math.random() * 400)
+    x: Math.floor(Math.random() * config.CANVAS_WIDTH),
+    y: Math.floor(Math.random() * config.CANVAS_HEIGHT)
   };
 }
 
@@ -39,18 +41,18 @@ io.on('connection', (socket) => {
         interval: null
       };
     }
-    if (rooms[roomId].players.length < 2) {
+    if (rooms[roomId].players.length < config.MAX_PLAYERS) {
       rooms[roomId].players.push(socket.id);
       rooms[roomId].scores[socket.id] = 0;
     }
-    if (rooms[roomId].players.length === 2 && !rooms[roomId].interval) {
+    if (rooms[roomId].players.length === config.MAX_PLAYERS && !rooms[roomId].interval) {
       // Start game loop
       rooms[roomId].interval = setInterval(() => {
         const dot = getRandomDot();
         rooms[roomId].dot = dot;
         rooms[roomId].dotActive = true;
         io.to(roomId).emit('new_dot', dot);
-      }, 2000);
+      }, config.DOT_INTERVAL_MS);
     }
     io.to(roomId).emit('score_update', rooms[roomId].scores);
   });
@@ -61,7 +63,7 @@ io.on('connection', (socket) => {
       room.dotActive = false;
       room.scores[socket.id] += 1;
       io.to(roomId).emit('score_update', room.scores);
-      if (room.scores[socket.id] >= 10) {
+      if (room.scores[socket.id] >= config.WINNING_SCORE) {
         io.to(roomId).emit('game_over', { winner: socket.id });
         clearInterval(room.interval);
         delete rooms[roomId];
