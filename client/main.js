@@ -32,6 +32,8 @@ function drawDot(dot) {
   }
 }
 
+
+// Adding the cavvas
 canvas.addEventListener('click', (e) => {
   if (!dot || gameOver || !joined) return;
   const rect = canvas.getBoundingClientRect();
