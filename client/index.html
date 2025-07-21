@@ -4,19 +4,93 @@
   <meta charset="UTF-8">
   <title>Dot Duel</title>
   <style>
-    body { font-family: sans-serif; text-align: center; }
-    #gameCanvas { border: 1px solid #333; background: #fafafa; }
-    #scoreboard { margin: 10px; }
-    #winner { font-size: 1.5em; color: green; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(120deg, #f8fafc 0%, #e0e7ef 100%);
+      text-align: center;
+      margin: 0;
+      min-height: 100vh;
+    }
+    h1 {
+      color: #2a4365;
+      margin-top: 30px;
+      letter-spacing: 2px;
+    }
+    #joinBox {
+      margin: 20px auto 30px auto;
+      padding: 18px 30px 18px 30px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px #b6c2d933;
+      display: inline-block;
+    }
+    #joinBox input {
+      padding: 8px 12px;
+      margin: 0 6px;
+      border: 1px solid #b6c2d9;
+      border-radius: 6px;
+      font-size: 1em;
+      outline: none;
+    }
+    #joinBtn {
+      padding: 8px 18px;
+      background: #2b6cb0;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    #joinBtn:disabled {
+      background: #b6c2d9;
+      cursor: not-allowed;
+    }
+    #scoreboard {
+      margin: 18px auto 10px auto;
+      padding: 10px 0;
+      width: 260px;
+      background: #f1f5fa;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px #b6c2d922;
+      font-size: 1.1em;
+      color: #2a4365;
+    }
+    #gameCanvas {
+      border: 2px solid #2b6cb0;
+      background: #f8fafc;
+      border-radius: 12px;
+      margin-top: 10px;
+      box-shadow: 0 2px 12px #b6c2d933;
+      cursor: pointer;
+      transition: box-shadow 0.2s;
+    }
+    #gameCanvas:active {
+      box-shadow: 0 4px 18px #2b6cb055;
+    }
+    #winner {
+      font-size: 1.5em;
+      color: #38a169;
+      margin-top: 18px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    #status {
+      margin: 12px auto 0 auto;
+      color: #b7791f;
+      font-size: 1.1em;
+      min-height: 24px;
+    }
   </style>
 </head>
 <body>
   <h1>Dot Duel</h1>
-  <div>
+  <div id="joinBox">
     <input id="roomInput" placeholder="Room name" />
     <input id="nameInput" placeholder="Your name" />
     <button id="joinBtn">Join Room</button>
   </div>
+  <div id="status"></div>
   <div id="scoreboard"></div>
   <canvas id="gameCanvas" width="600" height="400"></canvas>
   <div id="winner"></div>
